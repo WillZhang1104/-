@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>销售工作流完整手册</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            background: #ecf0f1;
+            padding: 10px;
+            border-left: 4px solid #3498db;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #2c3e50;
+            margin-top: 25px;
+        }
+        .toc {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .toc li {
+            margin: 8px 0;
+        }
+        .toc a {
+            text-decoration: none;
+            color: #2980b9;
+            padding: 5px 10px;
+            display: block;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        .toc a:hover {
+            background-color: #e3f2fd;
+        }
+        .contact-table, .update-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .contact-table th, .contact-table td,
+        .update-table th, .update-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .contact-table th, .update-table th {
+            background-color: #3498db;
+            color: white;
+        }
+        .contact-table tr:nth-child(even),
+        .update-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .quick-nav {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 200px;
+        }
+        .quick-nav h4 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .quick-nav a {
+            display: block;
+            margin: 5px 0;
+            color: #2980b9;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .quick-nav a:hover {
+            text-decoration: underline;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        .section-number {
+            background: #3498db;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-right: 10px;
+            font-size: 12px;
+        }
+        .content-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+        }
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .warning-box ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .materials-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .materials-table th, .materials-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .materials-table th {
+            background-color: #28a745;
+            color: white;
+        }
+        .materials-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .faq-item {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .faq-item h4 {
+            color: #495057;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .faq-item p {
+            margin: 0;
+            color: #6c757d;
+        }
+        /* 折叠式手册样式 */
+        .accordion {
+            margin: 20px 0;
+        }
+        .accordion-item {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .accordion-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .accordion-header:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+        }
+        .accordion-header::after {
+            content: '▼';
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+        .accordion-header.active::after {
+            transform: rotate(180deg);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: white;
+        }
+        .accordion-content.active {
+            max-height: 1000px;
+        }
+        .accordion-body {
+            padding: 20px;
+            border-top: 1px solid #e9ecef;
+        }
+        .sub-accordion {
+            margin: 15px 0;
+        }
+        .sub-accordion-item {
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+        .sub-accordion-header {
+            background: #f8f9fa;
+            color: #495057;
+            padding: 12px 15px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .sub-accordion-header:hover {
+            background: #e9ecef;
+        }
+        .sub-accordion-header::after {
+            content: '▶';
+            font-size: 10px;
+            transition: transform 0.3s ease;
+        }
+        .sub-accordion-header.active::after {
+            transform: rotate(90deg);
+        }
+        .sub-accordion-content {
+            display: none;
+        }
+        .sub-accordion-content.active {
+            display: block;
+        }
+        .sub-accordion-body {
+            padding: 15px;
+            background: white;
+            border-top: 1px solid #dee2e6;
+        }
+        .step-indicator {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        .status-required {
+            background: #dc3545;
+            color: white;
+        }
+        .status-optional {
+            background: #ffc107;
+            color: #212529;
+        }
+        .status-completed {
+            background: #28a745;
+            color: white;
+        }
+        /* 纯CSS折叠解决方案 - SharePoint兼容 */
+        .accordion-toggle,
+        .sub-accordion-toggle {
+            display: none;
+        }
+        
+        .accordion-content,
+        .sub-accordion-content {
+            display: none;
+            max-height: none !important;
+            overflow: visible !important;
+            height: auto !important;
+        }
+        
+        /* 使用checkbox hack实现纯CSS折叠 */
+        .accordion-toggle:checked + .accordion-header + .accordion-content,
+        .sub-accordion-toggle:checked + .sub-accordion-header + .sub-accordion-content {
+            display: block;
+        }
+        
+        /* 默认展开第一个主折叠项 */
+        .accordion-item:first-child .accordion-toggle:checked + .accordion-header + .accordion-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>商户入网流程手册</h1>
+        
+        
+
+        <div class="toc">
+            <h2 id="merchant-onboarding">商户入网流程</h2>
+        </div>
+
+        <!-- 商户入网流程详细内容 -->
+        <div id="merchant-onboarding-content" style="margin-top: 40px;">
+            
+            <!-- 3.1 商户入网前准备 -->
+            <div class="accordion-item">
+                <input type="checkbox" id="accordion1" class="accordion-toggle" checked>
+                <div class="accordion-header">
+                    <label for="accordion1" style="cursor: pointer; margin: 0; width: 100%;">
+                        <span><span class="step-indicator">1</span>商户入网前准备</span>
+                    </label>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        
+                        <!-- 1.1 材料清单 -->
+                        <div class="sub-accordion-item">
+                            <input type="checkbox" id="sub1" class="sub-accordion-toggle">
+                            <div class="sub-accordion-header">
+                                <label for="sub1" style="cursor: pointer; margin: 0; width: 100%;">
+                                    <span>📄 材料清单</span>
+                                </label>
+                            </div>
+                            <div class="sub-accordion-content">
+                                <div class="sub-accordion-body">
+                                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <a href="https://geoswift.sharepoint.com/:b:/s/GlobalPaymentsBUSetup/EXS2-t2dEYpMngqVAJ6uUzMBNxIHyQ59s3RnHp7j_XI3bw?e=c60HCw" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500; font-size: 16px;">Onboarding Checklist</a>
+                                            <span style="color: #666; font-size: 14px;">入网检查清单</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <a href="https://geoswift.sharepoint.com/:w:/s/GlobalPaymentsBUSetup/EebAMsT6ujBJnUWPPQ9oSkkB7_am4UEcI06R0DtxJ3R3wQ?e=RTjHyR" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500; font-size: 16px;">NDA</a>
+                                            <span style="color: #666; font-size: 14px;">保密协议</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <a href="https://geoswift.sharepoint.com/:b:/s/GlobalPaymentsBUSetup/EZ8rjpKhoj1LqSN44skMgigBttb8fMwck0_1St93gQ8Bqw?e=9gWlAE" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500; font-size: 16px;">Geoswift Onboarding Application Form v04.2025</a>
+                                            <span style="color: #666; font-size: 14px;">入网申请表</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <a href="https://geoswift.sharepoint.com/:w:/s/GlobalPaymentsBUSetup/EaN_9ciWCz5LlWuGiLa6foUBiy90trzAmK90-chMImeDRA?e=HhsQFJ" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500; font-size: 16px;">Annex B_Declaration of Providing Client Information_201804_B_final</a>
+                                            <span style="color: #666; font-size: 14px;">客户信息提供声明</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <a href="https://geoswift.sharepoint.com/:w:/s/GlobalPaymentsBUSetup/EfGcqis2OV5Lp7siAvNr8bsB8AgshiSqkrFYZiUasLuNZw?e=6ttzLo" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500; font-size: 16px;">AML CTF Questionnaire</a>
+                                            <span style="color: #666; font-size: 14px;">反洗钱反恐融资问卷</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <a href="https://geoswift.sharepoint.com/:w:/s/GlobalPaymentsBUSetup/EV4jqt3l4q5Anj4XCjyFTE8BvB4rpFzKHGPDTqGs5nn3FA?e=GqUBor" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500; font-size: 16px;">Authorized signatory form</a>
+                                            <span style="color: #666; font-size: 14px;">授权签字人表格</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 1.2 产品报价 -->
+                        <div class="sub-accordion-item">
+                            <input type="checkbox" id="sub2" class="sub-accordion-toggle">
+                            <div class="sub-accordion-header">
+                                <label for="sub2" style="cursor: pointer; margin: 0; width: 100%;">
+                                    <span>💰 产品报价</span>
+                                </label>
+                            </div>
+                            <div class="sub-accordion-content">
+                                <div class="sub-accordion-body">
+                                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <a href="https://geoswift.sharepoint.com/:x:/s/GlobalPaymentsBUSetup/EXZbesbKmzdKhtbndy4VesIBmEgwRcF6b3QquZVoyuZgbg?e=RaQtnt" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500; font-size: 16px;">易汇全球产品销售指导价（2025.04.25)</a>
+                                            <span style="color: #666; font-size: 14px;">易汇全球产品价格表</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <a href="https://geoswift.sharepoint.com/:x:/s/GlobalPaymentsBUSetup/EQSpUKsjWh5FtS2snjjqsUkBF27-SiofbfPZyISnasbydg?e=Sl7Hl8" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500; font-size: 16px;">Geocard对外报价 Cena 07182025</a>
+                                            <span style="color: #666; font-size: 14px;">Geocard产品报价表</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 1.3 文件保存 -->
+                        <div class="sub-accordion-item">
+                            <input type="checkbox" id="sub3" class="sub-accordion-toggle">
+                            <div class="sub-accordion-header">
+                                <label for="sub3" style="cursor: pointer; margin: 0; width: 100%;">
+                                    <span>💾 文件保存</span>
+                                </label>
+                            </div>
+                            <div class="sub-accordion-content">
+                                <div class="sub-accordion-body">
+                                    <p style="margin-bottom: 15px; color: #333; line-height: 1.6;">请销售将客户材料保存在SharePoint个人专属文件夹</p>
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <a href="https://geoswift.sharepoint.com/:f:/s/GlobalPaymentsBUSetup/EgvXBWhpX2lKjA3JtkxakL4BC9NBQtmyNaG-7J6j2uecgA?e=Q9PxEM" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500; font-size: 16px;">客户材料管理</a>
+                                        <span style="color: #666; font-size: 14px;">个人专属文件夹</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3.2 商户入网流程概述 -->
+            <div class="accordion-item">
+                <input type="checkbox" id="accordion2" class="accordion-toggle">
+                <div class="accordion-header">
+                    <label for="accordion2" style="cursor: pointer; margin: 0; width: 100%;">
+                        <span><span class="step-indicator">2</span>商户入网流程概述</span>
+                    </label>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        
+                        <!-- 2.1 线下邮件 -->
+                        <div class="sub-accordion-item">
+                            <input type="checkbox" id="sub4" class="sub-accordion-toggle">
+                            <div class="sub-accordion-header">
+                                <label for="sub4" style="cursor: pointer; margin: 0; width: 100%;">
+                                    <span>📧 线下邮件</span>
+                                </label>
+                            </div>
+                                                        <div class="sub-accordion-content">
+                                <div class="sub-accordion-body">
+                                    
+                                    <!-- 合规审核子项 -->
+                                    <div class="sub-accordion-item" style="margin-bottom: 15px;">
+                                        <input type="checkbox" id="sub4a" class="sub-accordion-toggle">
+                                        <div class="sub-accordion-header" style="background: #e8f5e8; border-left: 3px solid #28a745;">
+                                            <label for="sub4a" style="cursor: pointer; margin: 0; width: 100%;">
+                                                <span style="color: #155724;">🔍 合规审核</span>
+                                            </label>
+                                        </div>
+                                        <div class="sub-accordion-content">
+                                            <div class="sub-accordion-body">
+                                                <h5 style="color: #555; margin-bottom: 8px; font-size: 16px;">1.1 合规联系人</h5>
+                                                <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                                                    <div style="display: flex; flex-direction: column; gap: 5px; font-size: 14px;">
+                                                        <div><strong>Geoswift AML Compliance：</strong>AML.Compliance@geoswift.com</div>
+                                                        <div><strong>Mark Jiang：</strong>mark.jiang@geoswift.com</div>
+                                                        <div><strong>Eric Ng：</strong>eric.ng@geoswift.com</div>
+                                                        <div><strong>Brian Viglielmo：</strong>brian.viglielmo@geoswift.com</div>
+                                                        <div><strong>rex zhang：</strong>rex.zhang@geoswift.com</div>
+                                                        <div><strong>colin bian：</strong>colin.bian@geoswift.com</div>
+                                                        <div><strong>Zhen Wu：</strong>zhen.wu@geoswift.com</div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <h5 style="color: #555; margin-bottom: 8px; font-size: 16px;">1.2 发送要求</h5>
+                                                <p style="color: #555; margin-bottom: 8px;">发送至任一合规联系人，合规团队会内部分配任务。</p>
+                                                
+                                                <h5 style="color: #555; margin-bottom: 8px; font-size: 16px;">1.3 邮件标题模板</h5>
+                                                <div style="background: #e3f2fd; padding: 15px; border-radius: 5px; margin-bottom: 10px;">
+                                                    <p style="margin: 0; font-family: monospace; color: #1976d2;">[Onboarding] 产品名称-新商户入网申请（商户名称）</p>
+                                                </div>
+                                                <p style="color: #555; font-size: 14px;">示例：[Onboarding] 无因汇入-新商户入网申请（CFG Global Limited）</p>
+                                                <div style="margin-top: 15px; text-align: center;">
+                                                    <div style="background: #f8f9fa; border: 2px dashed #dee2e6; border-radius: 8px; padding: 20px; text-align: center; margin: 10px 0;">
+                                                        <p style="color: #6c757d; margin: 0; font-size: 14px;">📷 线下邮件-合规截图</p>
+                                                        <p style="color: #6c757d; margin: 5px 0 0 0; font-size: 12px;">
+                                                            <a href="https://geoswift.sharepoint.com/:i:/s/GlobalPaymentsBUSetup/EfVVFkQjLn9OsA2FWRJJoQ8B86h7CS5XTQS7ZBoxWtZS6Q?e=mcHk8r" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500;">点击查看截图</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                
+                                                <h5 style="color: #555; margin-bottom: 8px; font-size: 16px;">1.4 附件要求</h5>
+                                                <p style="color: #555;">附件可以添加完整的客户材料zip或sharepoint链接（确保合规团队有访问权限）</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 法务/运营审核子项 -->
+                                    <div class="sub-accordion-item">
+                                        <input type="checkbox" id="sub4b" class="sub-accordion-toggle">
+                                        <div class="sub-accordion-header" style="background: #e8f4fd; border-left: 3px solid #007bff;">
+                                            <label for="sub4b" style="cursor: pointer; margin: 0; width: 100%;">
+                                                <span style="color: #004085;">⚖️ 法务/运营审核</span>
+                                            </label>
+                                        </div>
+                                        <div class="sub-accordion-content">
+                                            <div class="sub-accordion-body">
+                                                <h5 style="color: #555; margin-bottom: 8px; font-size: 16px;">2.1 联系人</h5>
+                                                <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 15px;">
+                                                    <div style="display: flex; flex-direction: column; gap: 5px; font-size: 14px;">
+                                                        <div><strong>法务 Nic Yau：</strong>nic.yau@geoswift.com</div>
+                                                        <div><strong>运营 anna：</strong>anna@geoswift.com</div>
+                                                        <div><strong>Care：</strong>care@geoswift.com</div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <h5 style="color: #555; margin-bottom: 8px; font-size: 16px;">2.2 发送要求</h5>
+                                                <p style="color: #555; margin-bottom: 10px;">发送协议至法务和运营，并抄送Care。其中法务负责审核协议条款，运营审核产品签约价格。</p>
+                                                <div style="margin-top: 15px; text-align: center;">
+                                                    <div style="background: #f8f9fa; border: 2px dashed #dee2e6; border-radius: 8px; padding: 20px; text-align: center; margin: 10px 0;">
+                                                        <p style="color: #6c757d; margin: 0; font-size: 14px;">📷 线下邮件-法务&运营截图</p>
+                                                        <p style="color: #6c757d; margin: 5px 0 0 0; font-size: 12px;">
+                                                            <a href="https://geoswift.sharepoint.com/:i:/s/GlobalPaymentsBUSetup/EXT12HE2pxFIrii9ttBzYG0BQw__PTZrY9WfnLkVCkffEQ?e=HJ7Qwb" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500;">点击查看截图</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                
+                                                <h5 style="color: #555; margin-bottom: 8px; font-size: 16px;">2.3 协议模板</h5>
+                                                <p style="color: #555; margin-bottom: 10px;"><strong>新商户入网--签署产品协议</strong></p>
+                                                <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+                                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                        <a href="https://geoswift.sharepoint.com/:w:/s/GlobalPaymentsBUSetup/EWx2fWneyjlHrnSt8qnwbGwB4upoZncrdt0vK7xPdRg2QQ?e=8Dq7qX" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500; font-size: 16px;">1. Fund_Distribution_Agreement_-_Merchant_(20250807)</a>
+                                                        <span style="color: #666; font-size: 14px;">商户协议</span>
+                                                    </div>
+                                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                        <a href="https://geoswift.sharepoint.com/:w:/s/GlobalPaymentsBUSetup/EbaVWNeOaG5KoOl6iIyLg0IBNYJ7q0ZKyrx2r9TybTKfOw?e=1GwAYe" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500; font-size: 16px;">2. Fund_Distribution_Agreement_-_PSP_(20250731)</a>
+                                                        <span style="color: #666; font-size: 14px;">服务商协议</span>
+                                                    </div>
+                                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                                        <a href="https://geoswift.sharepoint.com/:w:/s/GlobalPaymentsBUSetup/EXkCA9IFfNRDtkEB3OQHhcEBh6AaQmz4l0H4ZJPTHLreAg?e=v0GTR2" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500; font-size: 16px;">3. CROSS-BORDER_PAYMENT_SERVICE_AGREEMENT_-_TEMPLATE_(20250401)</a>
+                                                        <span style="color: #666; font-size: 14px;">跨境支付服务协议</span>
+                                                    </div>
+                                                </div>
+                                                
+                                                <p style="color: #555; margin-bottom: 10px;"><strong>补充协议：</strong>存量商户--签署补充协议，在原协议的基础上补充内容</p>
+                                                <p style="color: #555; margin-bottom: 10px;"><strong>协议变更：</strong>存量商户--签署补充协议，变更原协议内容</p>
+                                                
+                                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                                    <a href="https://geoswift.sharepoint.com/:w:/s/GlobalPaymentsBUSetup/ERgJx2RC_rxOp94hXam-DX8B-QEYUnutgtiOxXhxgUHCTQ?e=o7eD4T" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500; font-size: 16px;">3. Supplemental_Agreement_-_TEMPLATE</a>
+                                                    <span style="color: #666; font-size: 14px;">补充协议模板</span>
+                                                </div>
+                                                
+                                                <h5 style="color: #555; margin-bottom: 8px; font-size: 16px;">2.4 注意事项</h5>
+                                                <div style="background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; padding: 15px;">
+                                                    <ol style="margin: 0; padding-left: 20px; color: #856404;">
+                                                        <li>提交法务/运营审核是需要附上合规审核记录；</li>
+                                                        <li>如涉及价格特批，也需要附上领导审批记录。</li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 2.2 BOSS系统 -->
+                        <div class="sub-accordion-item">
+                            <input type="checkbox" id="sub5" class="sub-accordion-toggle">
+                            <div class="sub-accordion-header">
+                                <label for="sub5" style="cursor: pointer; margin: 0; width: 100%;">
+                                    <span>🖥️ BOSS系统</span>
+                                </label>
+                            </div>
+                            <div class="sub-accordion-content">
+                                <div class="sub-accordion-body">
+                                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                                        <div><strong>1. BOSS系统网址：</strong><a href="https://boss.geoswift.com/" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500;">https://boss.geoswift.com/</a></div>
+                                        <div><strong>2. 报单目的：</strong>留存商户基本信息、防止撞单</div>
+                                        <div><strong>3. 报单步骤：</strong>创建报单 → 报单查询</div>
+                                    </div>
+                                    <div style="margin-top: 18px; text-align: center;">
+                                        <div style="background: #f8f9fa; border: 2px dashed #dee2e6; border-radius: 8px; padding: 20px; text-align: center; margin: 10px 0;">
+                                            <p style="color: #6c757d; margin: 0; font-size: 14px;">📷 BOSS系统报单步骤截图</p>
+                                            <p style="color: #6c757d; margin: 5px 0 0 0; font-size: 12px;">
+                                                <a href="https://geoswift.sharepoint.com/:i:/s/GlobalPaymentsBUSetup/EbwsdcNHkOZKsU3fNTW3lsMBwuGAZ9g7uEqcvemA0LE2nQ?e=Orqrbb" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500;">点击查看截图</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 2.3 OA系统 -->
+                        <div class="sub-accordion-item">
+                            <input type="checkbox" id="sub6" class="sub-accordion-toggle">
+                            <div class="sub-accordion-header">
+                                <label for="sub6" style="cursor: pointer; margin: 0; width: 100%;">
+                                    <span>📋 OA系统</span>
+                                </label>
+                            </div>
+                            <div class="sub-accordion-content">
+                                <div class="sub-accordion-body">
+                                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                                        <div><strong>1. OA系统网址：</strong>
+                                            <a href="https://oa.yizhifubj.com/" target="_blank" style="color: #007bff; text-decoration: none; font-weight: 500;">https://oa.yizhifubj.com/</a>
+                                        </div>
+                                        <div><strong>2. OA申请内容填写说明：</strong></div>
+                                        <div style="margin-left: 18px;">
+                                            <div><strong>2.1 流程类型：</strong></div>
+                                            <ul style="margin: 4px 0 8px 18px; color: #333; font-size: 15px;">
+                                                <li>商户入网</li>
+                                                <li>协议变更</li>
+                                                <li>补充协议</li>
+                                            </ul>
+                                            <div><strong>2.2 产品类型（行业线类型）：</strong></div>
+                                            <ul style="margin: 4px 0 8px 18px; color: #333; font-size: 15px;">
+                                                <li>跨境收付 Cross-border payment：收结汇业务（资金解付需要还原明细）</li>
+                                                <li>全球速汇 Global Remittance：无因（P2P）/香港本地下发/海外下发</li>
+                                                <li>全球收单 Global Collection：国际聚合收单业务</li>
+                                                <li>全球收款账户 Global collection account：VA账户收款业务</li>
+                                                <li>汇兑 FX service：汇兑业务</li>
+                                            </ul>
+                                            <div><strong>2.3 签约主体类型：</strong></div>
+                                            <table style="width:100%; border-collapse:collapse; margin: 10px 0; font-size: 15px;">
+                                                <thead>
+                                                    <tr style="background:#ff8800; color:#fff;">
+                                                        <th style="border:1px solid #fff; padding:8px;">签约主体类型</th>
+                                                        <th style="border:1px solid #fff; padding:8px;">入网审核资料</th>
+                                                        <th style="border:1px solid #fff; padding:8px;">签署协议类型</th>
+                                                        <th style="border:1px solid #fff; padding:8px;">是否返佣</th>
+                                                        <th style="border:1px solid #fff; padding:8px;">关联关系说明</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr style="background:#ffe5cc;">
+                                                        <td style="border:1px solid #fff; padding:8px;">一级商户</td>
+                                                        <td style="border:1px solid #fff; padding:8px;">KYC资料</td>
+                                                        <td style="border:1px solid #fff; padding:8px;">产品协议</td>
+                                                        <td style="border:1px solid #fff; padding:8px;">否</td>
+                                                        <td style="border:1px solid #fff; padding:8px;" rowspan="4">
+                                                            1. 二级商户必须关联在一级商户下；<br>
+                                                            2. 代理商可关联一级商户和服务商；<br>
+                                                            3. 同一商户主体可同时以多个主体类型入网。
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="background:#ffe5cc;">
+                                                        <td style="border:1px solid #fff; padding:8px;">二级商户</td>
+                                                        <td style="border:1px solid #fff; padding:8px;">KYC资料</td>
+                                                        <td style="border:1px solid #fff; padding:8px;">无需签署协议</td>
+                                                        <td style="border:1px solid #fff; padding:8px;">否</td>
+                                                    </tr>
+                                                    <tr style="background:#ffe5cc;">
+                                                        <td style="border:1px solid #fff; padding:8px;">服务商</td>
+                                                        <td style="border:1px solid #fff; padding:8px;">KYC资料</td>
+                                                        <td style="border:1px solid #fff; padding:8px;">产品协议</td>
+                                                        <td style="border:1px solid #fff; padding:8px;">服务商返佣</td>
+                                                    </tr>
+                                                    <tr style="background:#ffe5cc;">
+                                                        <td style="border:1px solid #fff; padding:8px;">代理商</td>
+                                                        <td style="border:1px solid #fff; padding:8px;">基本资质资料</td>
+                                                        <td style="border:1px solid #fff; padding:8px;">代理协议</td>
+                                                        <td style="border:1px solid #fff; padding:8px;">代理商返佣</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div style="color:#d32f2f; font-size:14px; margin-bottom:10px;"><strong>注意：</strong></div>
+                                            <ul style="color:#d32f2f; font-size:14px; margin-top:0;">
+                                                <li>当商户同时以多个签约主体类型入网时要勾选全，且注明每个签约主体开通的产品名称。</li>
+                                                <li>当商户有所属一级商户或代理商时，要在OA上注明一级商户/代理商名称及商编。</li>
+                                            </ul>
+                                            <div><strong>2.4 VA账户相关说明：</strong></div>
+                                            <ul style="margin: 4px 0 8px 18px; color: #333; font-size: 15px;">
+                                                <li><strong>开户费收取方式：</strong>不收取开户费 / 从收款交易中扣除 / 从账户余额中扣除（需选择扣费币种和钱包）</li>
+                                                <li><strong>子商户与服务商手续费一致：</strong>是（服务商不需要单独给子商户配置费率）/ 否（服务商需要给子商户配置费率）</li>
+                                                <li><strong>允许子商户手续费低于服务商手续费：</strong>是（允许）/ 否（不允许）</li>
+                                                <li><strong>子商户资金归集到服务商：</strong>是（资金归集）/ 否（资金不归集）</li>
+                                            </ul>
+                                            <div><strong>2.5 OA上传附件-销售：</strong></div>
+                                            <ul style="margin: 4px 0 8px 18px; color: #333; font-size: 15px;">
+                                                <li><strong>业务特批商户：</strong>价格特批邮件截图（如有）；VA账户开户数量特批邮件截图（VA开户数量大于1）</li>
+                                                <li><strong>聚合收单商户：</strong>《全球收单商户结算账户信息采集表（各人民币结算）》</li>
+                                                <li><strong>使用GR-B2B商户后台商户：</strong>《GR-B2B系统商户信息登记表》</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3.3 结算信息变更流程 -->
+            <div class="accordion-item">
+                <input type="checkbox" id="accordion3" class="accordion-toggle">
+                <div class="accordion-header">
+                    <label for="accordion3" style="cursor: pointer; margin: 0; width: 100%;">
+                        <span><span class="step-indicator">3</span>结算信息变更流程</span>
+                    </label>
+                </div>
+                <div class="accordion-content">
+                    <div class="accordion-body">
+                        <h4 style="color:#2c3e50; margin-bottom: 16px;">线下邮件变更</h4>
+                        <table style="width:100%; border-collapse:collapse; margin-bottom: 18px; font-size: 15px;">
+                            <thead>
+                                <tr style="background:#ff8800; color:#fff;">
+                                    <th style="border:1px solid #fff; padding:8px;">变更类型</th>
+                                    <th style="border:1px solid #fff; padding:8px;">流程说明</th>
+                                    <th style="border:1px solid #fff; padding:8px;">邮件要求</th>
+                                    <th style="border:1px solid #fff; padding:8px;">备注</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background:#ffe5cc;">
+                                    <td style="border:1px solid #fff; padding:8px;">聚合商户结算账户变更</td>
+                                    <td style="border:1px solid #fff; padding:8px;">销售发邮件到跨境商管部申请结算账户变更。</td>
+                                    <td style="border:1px solid #fff; padding:8px;">
+                                        1. 邮件标题：商户全称+商编+申请结算账户变更。<br>
+                                        2. 正文内容：说明变更理由。<br>
+                                        3. 附件：《商户结算账户信息变更表》
+                                    </td>
+                                    <td style="border:1px solid #fff; padding:8px;">此流程不可变更收款人、收款人地址、收款人国家信息</td>
+                                </tr>
+                                <tr style="background:#ffe5cc;">
+                                    <td style="border:1px solid #fff; padding:8px;">聚合商户结算方式变更</td>
+                                    <td style="border:1px solid #fff; padding:8px;">销售发邮件到跨境商管部申请结算账户变更。</td>
+                                    <td style="border:1px solid #fff; padding:8px;">
+                                        1. 邮件标题：商户全称+商编+申请结算方式变更。<br>
+                                        2. 正文内容：<br>
+                                        （1）说明变更理由；<br>
+                                        （2）说明变更为哪种结算方式
+                                    </td>
+                                    <td style="border:1px solid #fff; padding:8px;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="color:#d32f2f; font-size:14px; margin-bottom:10px;"><strong>注意：</strong></div>
+                        <ul style="color:#d32f2f; font-size:14px; margin-top:0;">
+                            <li>结算账户变更涉及收款人、收款人地址、收款人国家变更时需要合规审核，申请OA变更流程。</li>
+                            <li>结算币种变更、需签补充协议，申请OA变更流程。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+
+    </div>
+
+    <!-- 纯CSS折叠解决方案 - 无需JavaScript，SharePoint完全兼容 -->
+</body>
+</html> 
